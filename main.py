@@ -9,9 +9,9 @@ def main():
     label = tk.Label(root, text="Hello, Tkinter!")
     label.pack(pady=20)
 
-    button2 = create_directory_button(root, "Choose Directory")
-    # buttonRemove = remove_folder(root, "uploads")
-    buttonExecute = executeProccess(root)
+    create_directory_button(root, "Choose Directory")
+    buttonRemove = remove_folder(root, "uploads")
+    executeProccess(root)
     
     root.mainloop()
 
