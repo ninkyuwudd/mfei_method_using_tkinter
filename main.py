@@ -1,8 +1,8 @@
 from tkinter import *
-from display_gait import display_video
+
 from execute import executeProccess
 from input_ouput_handle import *
-import os
+
 
 def main():
     root = Tk()
@@ -27,11 +27,19 @@ def main():
     label.pack(pady=10)
 
     canvas_id = tk.StringVar()
+    label_id = tk.StringVar()
 
-
+    # Upload sequence data dari folder kita dan menampilkan animasi gaya berjalan
     create_directory_button(label_frame01, pann_container_right,canvas_id,"Choose Directory")
+
+    # menghapus data folder yang sudah di upload
     remove_folder(label_frame01, "uploads")
-    executeProccess(label_frame01)
+
+    # Memproses data yang sudah di upload
+    executeProccess(label_frame01,label_id)
+
+    
+    
 
     label = Label(pann_container_right, text="DISPLAY", font=("Helvetica", 10))
     label.pack(pady=10)

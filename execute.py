@@ -1,5 +1,6 @@
 
 
+import time
 from input_ouput_handle import load_images_from_folder, remove_folder
 
 import pandas as pd
@@ -13,9 +14,15 @@ import numpy as np
 import os
 
 
-def executeProccess(root):
+from utils.custom_proggress_bar import custom_progress_bar
+from utils.widget_check_remover import check_and_remove_widget
+
+
+def executeProccess(root,label_id):
     def runProggram():
- 
+
+        check_and_remove_widget(root, label_id.get())
+
         load_images = load_images_from_folder("uploads")
         normalize= normalize_silhouettes(load_images)
         mfei = execute_mfei(normalize) 
@@ -31,6 +38,9 @@ def executeProccess(root):
         else:
             print(f"Tidak ada data yang diproses")
         result = clasification_data()
+        custom_progress_bar(root,result,label_id)
+ 
+         
         print(result)
         print("Data has been executed")
         # for filename in os.listdir("uploads"):

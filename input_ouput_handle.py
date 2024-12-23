@@ -5,6 +5,7 @@ import cv2
 import shutil
 from display_gait import display_video
 from utils.custom_button import CustomButton
+from utils.widget_check_remover import check_and_remove_widget
 
 
 def load_images_from_folder(folder_path):
@@ -18,14 +19,7 @@ def load_images_from_folder(folder_path):
             images.append(img)
     return images
 
-def check_and_remove_widget(parent, widget_name):
-    """Cek apakah widget tertentu ada, dan hapus jika ditemukan."""
-    for widget in parent.winfo_children():
-        if str(widget) == widget_name:  # Periksa nama widget
-            widget.destroy()
-            print(f"Widget {widget_name} telah dihapus.")
-            return
-    print(f"Widget {widget_name} tidak ditemukan.")
+
 
 def remove_and_clear_display_gait(root,widget_id):
     if os.path.exists("uploads"):
