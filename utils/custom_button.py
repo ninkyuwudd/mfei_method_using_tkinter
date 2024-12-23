@@ -8,6 +8,6 @@ import tkinter as tk
 #         self.pack(pady=10)
 
 def CustomButton(master, text, command):
-    button = tk.Button(master, text=text, command=command)
+    button = tk.Button(master, text=text, command=command,width=20)
     button.pack(pady=10)
     return button

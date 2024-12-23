@@ -1,11 +1,13 @@
 
 
 from input_ouput_handle import load_images_from_folder, remove_folder
-from method_hog import compute_hog
-from method_mfei import execute_mfei
+
 import pandas as pd
-from method_pre_processing import normalize_silhouettes
-from method_svc import clasification_data
+
+from method.method_hog import compute_hog
+from method.method_mfei import execute_mfei
+from method.method_pre_processing import normalize_silhouettes
+from method.method_svc import clasification_data
 from utils.custom_button import CustomButton
 import numpy as np  
 import os
