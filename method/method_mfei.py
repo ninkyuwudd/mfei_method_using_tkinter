@@ -23,3 +23,5 @@ def execute_mfei(frames):
     mig = calculateMIG(frames)
     mfei = mfeiCalculate(mig)
     return mfei
+
+

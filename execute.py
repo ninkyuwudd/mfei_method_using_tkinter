@@ -1,6 +1,8 @@
 
 
 import time
+from tkinter import ttk
+from display_gait import show_ndarray_animation
 from input_ouput_handle import load_images_from_folder, remove_folder
 
 import pandas as pd
@@ -15,17 +17,26 @@ import os
 
 
 from utils.custom_proggress_bar import custom_progress_bar
+from utils.displayed_result_image import show_image_on_tkinter
 from utils.widget_check_remover import check_and_remove_widget
 
 
-def executeProccess(root,label_id):
+def executeProccess(root,result_root,mfei_res_id,label_id):
     def runProggram():
+        label = ttk.Label(result_root, text="After Normalization", font=("Helvetica", 10))
+        label.grid(row=1,column=0) 
+
+        label = ttk.Label(result_root, text="MFEI Result", font=("Helvetica", 10))
+        label.grid(row=1,column=1) 
+        
 
         check_and_remove_widget(root, label_id.get())
 
         load_images = load_images_from_folder("uploads")
         normalize= normalize_silhouettes(load_images)
-        mfei = execute_mfei(normalize) 
+        show_ndarray_animation(normalize,result_root)
+        mfei = execute_mfei(normalize)
+        show_image_on_tkinter(result_root,mfei_res_id, mfei)
         hog = compute_hog(mfei)    
         faltten_hog = np.array(hog).flatten()
         if len(faltten_hog) > 0:

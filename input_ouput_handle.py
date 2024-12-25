@@ -8,6 +8,7 @@ from utils.custom_button import CustomButton
 from utils.widget_check_remover import check_and_remove_widget
 
 
+
 def load_images_from_folder(folder_path):
     images = []
     if not os.path.exists(folder_path):
@@ -32,34 +33,44 @@ def remove_and_clear_display_gait(root,widget_id):
 
 
 
-def create_directory_button(root,second_root, canvas_id,text):
+def create_directory_button(root,second_root, canvas_id,mfei_res_id,text):
     def choose_directory():
-        print(canvas_id.get())
+        
+        # menghapus canvas yang sudah ada
         remove_and_clear_display_gait(second_root,canvas_id.get())
 
+        remove_and_clear_display_gait(root,mfei_res_id.get())
+        
+
+        # mengecek direktory secara keseluruhan
         directory = filedialog.askdirectory()
+
         if directory:
-            # print("Directory:", directory)
+           
             uploads_dir = os.path.join(os.getcwd(), "uploads")
+
             if not os.path.exists(uploads_dir):
                 os.makedirs(uploads_dir)
             
             image_files = [f for f in os.listdir(directory) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+            
             for img in image_files:
+                
                 img_src = os.path.join(directory, img)
+                
                 new_img_path = os.path.join(uploads_dir, img)
-                # print("Copying", img_src, "to", new_img_path)
+             
                 shutil.copy(img_src, new_img_path)
         
         def count_files_in_directory(directory):
             return len([name for name in os.listdir(directory) if os.path.isfile(os.path.join(directory, name))])
 
-        def count_subdirectories_in_directory(directory):
-            return len([name for name in os.listdir(directory) if os.path.isdir(os.path.join(directory, name))])
+        # def count_subdirectories_in_directory(directory):
+        #     return len([name for name in os.listdir(directory) if os.path.isdir(os.path.join(directory, name))])
 
         directory_path = "uploads"
         num_files = count_files_in_directory(directory_path)
-        num_subdirectories = count_subdirectories_in_directory(directory_path)
+        # num_subdirectories = count_subdirectories_in_directory(directory_path)
 
         # print(f"Number of files in '{directory_path}': {num_files}")
         # print(f"Number of subdirectories in '{directory_path}': {num_subdirectories}")
@@ -71,8 +82,9 @@ def create_directory_button(root,second_root, canvas_id,text):
     return CustomButton(root, text, choose_directory)
 
 
-def remove_folder(root,folder_path):
+def remove_folder(root,display_root,canvas_id,folder_path):
     def remove():
+        remove_and_clear_display_gait(display_root,canvas_id.get())
         # Hapus folder dan isinya
         for filename in os.listdir(folder_path):
             file_path = os.path.join(folder_path, filename)

@@ -166,3 +166,4 @@ def normalize_silhouettes(frames):
         subject_centered = center_subject(bounding_subject,shift_founded)  
         aligned_frames.append(subject_centered)#[4]
     return aligned_frames
+
