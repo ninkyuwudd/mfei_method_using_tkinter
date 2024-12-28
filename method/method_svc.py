@@ -55,4 +55,4 @@ def clasification_data():
 
     print(f"predicted {y_pred[0]}")
 
-    return f"predicted {y_pred[0]}"
+    return f"Subject: {y_pred[0]}"

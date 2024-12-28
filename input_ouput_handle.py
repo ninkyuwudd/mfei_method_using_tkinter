@@ -4,7 +4,9 @@ import os
 import cv2
 import shutil
 from display_gait import display_video
+from utils.config import set_video_state
 from utils.custom_button import CustomButton
+from utils.displayed_result_image import stop_animation
 from utils.widget_check_remover import check_and_remove_widget
 
 
@@ -29,17 +31,22 @@ def remove_and_clear_display_gait(root,widget_id):
                 os.remove(file_path)
             os.rmdir("uploads")
 
-            check_and_remove_widget(root, widget_id)
+    check_and_remove_widget(root, widget_id)
 
 
 
-def create_directory_button(root,second_root, canvas_id,mfei_res_id,text):
+def create_directory_button(root,second_root, canvas_id,mfei_res_id,text,frame_input_file_idx,gr_animated_id,label_id):
     def choose_directory():
+
         
+        set_video_state(True)
+        remove_and_clear_display_gait(second_root,label_id.get())   
         # menghapus canvas yang sudah ada
         remove_and_clear_display_gait(second_root,canvas_id.get())
 
-        remove_and_clear_display_gait(root,mfei_res_id.get())
+        remove_and_clear_display_gait(second_root,mfei_res_id.get())
+
+        remove_and_clear_display_gait(second_root,gr_animated_id.get())
         
 
         # mengecek direktory secara keseluruhan
@@ -65,33 +72,36 @@ def create_directory_button(root,second_root, canvas_id,mfei_res_id,text):
         def count_files_in_directory(directory):
             return len([name for name in os.listdir(directory) if os.path.isfile(os.path.join(directory, name))])
 
-        # def count_subdirectories_in_directory(directory):
-        #     return len([name for name in os.listdir(directory) if os.path.isdir(os.path.join(directory, name))])
+
 
         directory_path = "uploads"
         num_files = count_files_in_directory(directory_path)
-        # num_subdirectories = count_subdirectories_in_directory(directory_path)
-
-        # print(f"Number of files in '{directory_path}': {num_files}")
-        # print(f"Number of subdirectories in '{directory_path}': {num_subdirectories}")
+      
 
         if(num_files > 0):
             print("Displaying video...")
-            display_video(second_root, canvas_id,"uploads")
+            display_video(second_root, canvas_id,"uploads",frame_input_file_idx)
     
     return CustomButton(root, text, choose_directory)
 
 
-def remove_folder(root,display_root,canvas_id,folder_path):
+def remove_folder(root,display_root,canvas_id,folder_path, mfei_res_id,gr_animated_id,label_id):
     def remove():
-        remove_and_clear_display_gait(display_root,canvas_id.get())
-        # Hapus folder dan isinya
-        for filename in os.listdir(folder_path):
-            file_path = os.path.join(folder_path, filename)
-            os.remove(file_path)
-        os.rmdir(folder_path)
 
-    return CustomButton(root, "Remove data", remove)
+        stop_animation()
+        remove_and_clear_display_gait(display_root,label_id.get())        
+        remove_and_clear_display_gait(display_root,canvas_id.get())
+        remove_and_clear_display_gait(display_root,mfei_res_id.get())
+        remove_and_clear_display_gait(display_root,gr_animated_id.get())
+
+        # Hapus folder dan isinya
+        if os.path.exists(folder_path):
+            for filename in os.listdir(folder_path):
+                file_path = os.path.join(folder_path, filename)
+                os.remove(file_path)
+            os.rmdir(folder_path)
+
+    return CustomButton(root, "Remove data", remove,"danger")
 
 
 def create_video_from_frames(frame_folder, output_video_path, fps=20):

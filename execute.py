@@ -21,20 +21,15 @@ from utils.displayed_result_image import show_image_on_tkinter
 from utils.widget_check_remover import check_and_remove_widget
 
 
-def executeProccess(root,result_root,mfei_res_id,label_id):
+def executeProccess(root,result_root,mfei_res_id,label_id,gr_animated_id):
     def runProggram():
-        label = ttk.Label(result_root, text="After Normalization", font=("Helvetica", 10))
-        label.grid(row=1,column=0) 
-
-        label = ttk.Label(result_root, text="MFEI Result", font=("Helvetica", 10))
-        label.grid(row=1,column=1) 
         
 
-        check_and_remove_widget(root, label_id.get())
+        # check_and_remove_widget(root, label_id.get())
 
         load_images = load_images_from_folder("uploads")
         normalize= normalize_silhouettes(load_images)
-        show_ndarray_animation(normalize,result_root)
+        show_ndarray_animation(normalize,result_root,gr_animated_id)
         mfei = execute_mfei(normalize)
         show_image_on_tkinter(result_root,mfei_res_id, mfei)
         hog = compute_hog(mfei)    
@@ -49,7 +44,7 @@ def executeProccess(root,result_root,mfei_res_id,label_id):
         else:
             print(f"Tidak ada data yang diproses")
         result = clasification_data()
-        custom_progress_bar(root,result,label_id)
+        custom_progress_bar(result_root,result,label_id)
  
          
         print(result)
@@ -60,4 +55,4 @@ def executeProccess(root,result_root,mfei_res_id,label_id):
         # os.rmdir("uploads")
         # remove_folder(root,"uploads")
         
-    return CustomButton(root, "Execute Data", runProggram)
+    return CustomButton(root, "Execute Data", runProggram,"success")

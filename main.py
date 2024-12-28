@@ -9,7 +9,7 @@ def main():
     root = Tk()
     root.configure(bg="#1e1e1f")
     root.title("Gait Recognition")
-    root.geometry("800x500")
+    root.geometry("800x550")
     root.iconbitmap("assets/icon_walk.ico")
 
     pann_container = PanedWindow(root, orient="horizontal", bg="#1e1e1f")
@@ -22,10 +22,7 @@ def main():
     pann_container.add(pann_container_left)
     pann_container_right = PanedWindow(pann_container,orient="vertical",bg="#1e1e1f")
     pann_container.add(pann_container_right)
-    # pann_container_right_top = PanedWindow(pann_container_right,bg="#1e1e1f")
-    # pann_container_right.add(pann_container_right_top)
-    # pann_container_right_bottom = PanedWindow(pann_container_right,bg="#1e1e1f")
-    # pann_container_right.add(pann_container_right_bottom)
+
    
    
     style = ttk.Style()
@@ -39,27 +36,19 @@ def main():
     canvas_id = tk.StringVar()
     label_id = tk.StringVar()
     mfei_res_id = tk.StringVar()
-
-
-
-
-
+    gr_animated_id = tk.StringVar()
+    frame_input_file_idx = 0
 
 
     # Upload sequence data dari folder kita dan menampilkan animasi gaya berjalan
-    create_directory_button(label_frame01, pann_container_right,canvas_id,mfei_res_id,"Choose Directory")
+    create_directory_button(label_frame01, pann_container_right,canvas_id,mfei_res_id,"Choose Directory",frame_input_file_idx,gr_animated_id,label_id)
 
     # menghapus data folder yang sudah di upload
-    remove_folder(label_frame01,pann_container_right,canvas_id, "uploads")
+    remove_folder(label_frame01,pann_container_right,canvas_id, "uploads", mfei_res_id,gr_animated_id,label_id)
 
     # Memproses data yang sudah di upload
-    executeProccess(label_frame01,pann_container_right,mfei_res_id,label_id)
+    executeProccess(label_frame01,pann_container_right,mfei_res_id,label_id,gr_animated_id)
 
-    # left_frame = ttk.Frame(pann_container_right, width=200, height=300, relief=tk.SUNKEN)
-    # pann_container_right.add(left_frame)
-    
-    # label = tk.Label(left_frame, text="Label dengan Background Gelap", bg="black", fg="white", font=("Arial", 12))
-    # label.grid()
    
     
     root.mainloop()
